@@ -82,14 +82,16 @@ def main():
     connect_to_database(database, username, password)
 
     print("\nSelect one of the following options:\n")
-    print("    1. Print all of the students in the database")
-    print("    2. Add a new student into the database")
-    print("    3. Update the email of a student in the database")
-    print("    4. Delete a student in the database")
-    print("    Press 0 to exit the program.\n")
+    print("    Enter 1 to print all of the students in the database")
+    print("    Enter 2 to add a new student into the database")
+    print("    Enter 3 to to update the email of a student in the database")
+    print("    Enter 4 to delete a student in the database")
+    print("    Enter 0 to exit the program.\n")
 
-    while not False:
+    while(not False):
+        
         result = input("Option: ").upper()
+        
         if(result == "0"):
             break
         elif(result == "1"):
