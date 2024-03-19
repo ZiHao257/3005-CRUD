@@ -3,8 +3,9 @@ import psycopg2
 # Gets all the student from the table
 def getAllStudents(connection):
     try:
+        query = "SELECT * FROM students"
         with connection.cursor() as cursor:
-            cursor.execute("SELECT * FROM students")
+            cursor.execute(query)
             print("\nstudent_id, first_name, last_name, email, enrollment_date")
             
             for record in cursor.fetchall():
@@ -19,8 +20,10 @@ def getAllStudents(connection):
 # Create addStudent function
 def addStudent(connection, first_name, last_name, email, enrollment_date):
     try:
+        query = "INSERT INTO students (first_name, last_name, email, enrollment_date) VALUES (%s, %s, %s, %s)"
+        values = (first_name, last_name, email, enrollment_date)
         with connection.cursor() as cursor:
-            cursor.execute("INSERT INTO students (first_name, last_name, email, enrollment_date) VALUES (%s, %s, %s, %s)", (first_name, last_name, email, enrollment_date))
+            cursor.execute(query, values)
             connection.commit()
         print("\nThe new student has been added to the database.\n")
 
@@ -31,8 +34,10 @@ def addStudent(connection, first_name, last_name, email, enrollment_date):
 # Update the student's email
 def updateStudentEmail(connection, student_id, new_email):
     try:
+        query = "UPDATE students SET email = %s WHERE student_id = %s"
+        values = (new_email, student_id)
         with connection.cursor() as cursor:
-            cursor.execute("UPDATE students SET email = %s WHERE student_id = %s", (new_email, student_id))
+            cursor.execute(query, values)
             connection.commit()
         if cursor.statusmessage.split()[1] == '1':
             print(f"Student ID {student_id} email has been updated\n")
@@ -45,8 +50,10 @@ def updateStudentEmail(connection, student_id, new_email):
 # Deleting a student from the database 
 def deleteStudent(connection, student_id):
     try:
+        query = "DELETE FROM students WHERE student_id = %s"
+        values = (student_id)
         with connection.cursor() as cursor:
-            cursor.execute("DELETE FROM students WHERE student_id = %s", (student_id))
+            cursor.execute(query, (values))
             connection.commit()
         if cursor.statusmessage.split()[1] == '0':
             print(f"Could not find a student ID {student_id}\n")
@@ -66,8 +73,8 @@ def main():
     with psycopg2.connect(dbname=database, user=username, password=password) as connection:
 
         print("\nSelect one of the following options:\n")
-        print("    1. Get all of the students in the database")
-        print("    2. Add a new student in the databse")
+        print("    1. Print all of the students in the database")
+        print("    2. Add a new student into the databse")
         print("    3. Update the email of a student in the databse")
         print("    4. Delete a student in the databse")
         print("    Press 0 to exit the program.\n")
