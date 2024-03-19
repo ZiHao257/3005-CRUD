@@ -41,10 +41,10 @@ def updateStudentEmail(connection):
         with connection.cursor() as cursor:
             cursor.execute("UPDATE students SET email = %s WHERE student_id = %s", (new_email, student_id))
             connection.commit()
-        if cursor.statusmessage.split()[1] == '0':
-            print(f"Could not find a student ID {student_id}\n")
-        else:
+        if cursor.statusmessage.split()[1] == '1':
             print(f"Student ID {student_id} email has been updated\n")
+        else:
+            print(f"Could not find a student ID {student_id}\n")
 
     except psycopg2.Error as e:
         print("\nError updating the student's email\n", e)
@@ -65,6 +65,7 @@ def deleteStudent(connection):
         connection.rollback()
         print("\nError deleting the student: \n", e)
 
+# main function
 def main():
     
     database = input("\nEnter the database name: ")
