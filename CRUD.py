@@ -67,11 +67,11 @@ def deleteStudent(student_id):
         if(rows_affected == 0):
             print(f"Could not find a student with ID {student_id}\n")
         else:
-            print(f"Student with ID {student_id} has been successfully deleted\n")
+            print(f"Student with ID {student_id} has been successfully deleted.\n")
 
     except psycopg2.Error as e:
         connection.rollback()
-        print("\nError deleting the student: \n", e)
+        print("\nError deleting the student.\n", e)
 
 # main function 
 def main():
