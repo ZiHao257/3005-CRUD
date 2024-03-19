@@ -1,6 +1,5 @@
 import psycopg2
 
-# Global variable for the database connection
 connection = None
 
 # Connect to the database
@@ -46,8 +45,9 @@ def updateStudentEmail(student_id, new_email):
         values = (new_email, student_id)
         with connection.cursor() as cursor:
             cursor.execute(query, values)
+            rows_affected = cursor.rowcount
             connection.commit()
-        if cursor.statusmessage.split()[1] == '1':
+        if(rows_affected == 1):
             print(f"Student ID {student_id} email has been updated\n")
         else:
             print(f"Could not find a student ID {student_id}\n")
@@ -64,8 +64,7 @@ def deleteStudent(student_id):
             cursor.execute(query, values)
             rows_affected = cursor.rowcount
             connection.commit()
-        
-        if rows_affected == 0:
+        if(rows_affected == 0):
             print(f"Could not find a student with ID {student_id}\n")
         else:
             print(f"Student with ID {student_id} has been successfully deleted\n")
@@ -74,6 +73,7 @@ def deleteStudent(student_id):
         connection.rollback()
         print("\nError deleting the student: \n", e)
 
+# main function 
 def main():
     database = input("\nEnter the database name: ")
     username = input("Enter the database username: ")
@@ -88,24 +88,23 @@ def main():
     print("    4. Delete a student in the database")
     print("    Press 0 to exit the program.\n")
 
-    while True:
+    while not False:
         result = input("Option: ").upper()
-
-        if result == "0":
+        if(result == "0"):
             break
-        elif result == "1":
+        elif(result == "1"):
             getAllStudents()
-        elif result == "2":
+        elif(result == "2"):
             first_name = input("\nEnter the first name of the student: ")
             last_name = input("Enter the last name of the student: ")
             email = input("Enter the email of the student: ")
             enrollment_date = input("Enter the enrollment date of the student (YYYY-MM-DD): ")
             addStudent(first_name, last_name, email, enrollment_date)
-        elif result == "3":
+        elif(result == "3"):
             student_id = input("\nEnter the Student ID you want to update: ")
             new_email = input("Enter the new email of the student: ")
             updateStudentEmail(student_id, new_email)
-        elif result == "4":
+        elif(result == "4"):
             student_id = input("\nEnter the ID of the student you want to delete: ")
             deleteStudent(student_id)
         else:
