@@ -3,7 +3,9 @@ A Python application that interfaces with a PostgreSQL database to execute CRUD 
 Required Downloads:
 
 Enter the below command to install python: pip install python
+
 Enter the below command to install psycopg2: pip install psycopg2
+
 Download CRUD.py from and setup.sql from the repository.
 
 Setting up in PostGreSQL:
