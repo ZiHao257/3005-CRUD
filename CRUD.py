@@ -17,15 +17,10 @@ def getAllStudents(connection):
         print("\nError retrieving the students from the database: \n", e)
 
 # Create addStudent function
-def addStudent(connection):
+def addStudent(connection, first_name, last_name, email, enrollment_date):
     try:
-        first_name = input("\nEnter the first name of the student: ")
-        last_name = input("Enter the last name of the student: ")
-        email = input("Enter the email of the student: ")
-        enrollment_date = input("Enter the enrollment date of the stuent (YYYY-MM-DD): ")
         with connection.cursor() as cursor:
-            cursor.execute("INSERT INTO students (first_name, last_name, email, enrollment_date) VALUES (%s, %s, %s, %s)",
-                           (first_name, last_name, email, enrollment_date))
+            cursor.execute("INSERT INTO students (first_name, last_name, email, enrollment_date) VALUES (%s, %s, %s, %s)", (first_name, last_name, email, enrollment_date))
             connection.commit()
         print("\nThe new student has been added to the database.\n")
 
@@ -34,10 +29,8 @@ def addStudent(connection):
         print("\nError adding the student to the database:", e)
 
 # Update the student's email
-def updateStudentEmail(connection):
+def updateStudentEmail(connection, student_id, new_email):
     try:
-        student_id = input("\nEnter the Student ID you want to update: ")
-        new_email = input("Enter the new email of the student: ")
         with connection.cursor() as cursor:
             cursor.execute("UPDATE students SET email = %s WHERE student_id = %s", (new_email, student_id))
             connection.commit()
@@ -50,11 +43,10 @@ def updateStudentEmail(connection):
         print("\nError updating the student's email\n", e)
 
 # Deleting a student from the database 
-def deleteStudent(connection):
+def deleteStudent(connection, student_id):
     try:
-        student_id = input("\nEnter the ID of the student you want to delete: ")
         with connection.cursor() as cursor:
-            cursor.execute("DELETE FROM students WHERE student_id = %s", (student_id,))
+            cursor.execute("DELETE FROM students WHERE student_id = %s", (student_id))
             connection.commit()
         if cursor.statusmessage.split()[1] == '0':
             print(f"Could not find a student ID {student_id}\n")
@@ -65,7 +57,6 @@ def deleteStudent(connection):
         connection.rollback()
         print("\nError deleting the student: \n", e)
 
-# main function
 def main():
     
     database = input("\nEnter the database name: ")
@@ -91,16 +82,23 @@ def main():
                 elif(result == "1"):
                     getAllStudents(connection)
                 elif(result == "2"):
-                    addStudent(connection)
+                    first_name = input("\nEnter the first name of the student: ")
+                    last_name = input("Enter the last name of the student: ")
+                    email = input("Enter the email of the student: ")
+                    enrollment_date = input("Enter the enrollment date of the stuent (YYYY-MM-DD): ")
+                    addStudent(connection, first_name, last_name, email, enrollment_date)
                 elif(result == "3"):
-                    updateStudentEmail(connection)
+                    student_id = input("\nEnter the Student ID you want to update: ")
+                    new_email = input("Enter the new email of the student: ")
+                    updateStudentEmail(connection, student_id, new_email)
                 elif(result == "4"):
-                    deleteStudent(connection)
+                    student_id = input("\nEnter the ID of the student you want to delete: ")
+                    deleteStudent(connection, student_id)
                 else:
                     print("Option entered is not valid.")
 
         print("\nThe database has disconnected.\n")
         
-# main guard
+# main function called
 if __name__ == "__main__":
     main()
