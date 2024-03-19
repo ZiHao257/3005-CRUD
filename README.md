@@ -16,5 +16,4 @@ Compilation:
 
 To compile and execute the Python program, you can either run it using your Integrated Development Environment or use the terminal by running the command: python CRUD.py
 
-Demo:
-Link to YouTube video: https://youtu.be/Ot9eqdDQvD8
+Demo: https://youtu.be/Ot9eqdDQvD8
