@@ -15,5 +15,3 @@ Login to pgAdmin 4 and create a new database with a name of your choice. Go to t
 Compilation:
 
 To compile and execute the Python program, you can either run it using your Integrated Development Environment or use the terminal by running the command: python CRUD.py
-
-Demo: https://youtu.be/Ot9eqdDQvD8
